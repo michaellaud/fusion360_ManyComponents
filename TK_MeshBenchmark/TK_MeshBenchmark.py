@@ -541,7 +541,21 @@ def run_benchmark(cfg, out_dir, log):
     log('Sistema: %s' % json.dumps(info, ensure_ascii=False))
 
     t0 = _now()
-    motion, json_path = load_motion(cfg)
+    try:
+        motion, json_path = load_motion(cfg)
+    except ValueError as e:
+        # Unknown structure: still dump what is needed to write an adapter.
+        with open(cfg['motion_json'], 'r', encoding='utf-8') as jf:
+            raw = json.load(jf)
+        with open(os.path.join(out_dir, 'json_schema.txt'), 'w', encoding='utf-8') as f:
+            f.write(tk_core.describe_json(raw, max_depth=6))
+        descs, _ = occurrence_descriptors(root)
+        with open(os.path.join(out_dir, 'occurrences.txt'), 'w', encoding='utf-8') as f:
+            for d in descs:
+                f.write('%s\t%s\n' % (d['fullPathName'], d['componentName']))
+        log(str(e))
+        log('Gravados json_schema.txt e occurrences.txt para criar o adaptador.')
+        raise RuntimeError('%s\n\nForam gravados json_schema.txt e occurrences.txt em:\n%s' % (e, out_dir))
     log('JSON: %s | formato %s | %d trilhas | %d amostras | %.3f..%.3f s | timeline compartilhada: %s | meta %s | carga %.3f s'
         % (json_path, motion.meta.get('detected_format'), len(motion.tracks), motion.frame_count,
            motion.start, motion.duration, motion.shared, motion.meta, _now() - t0))
