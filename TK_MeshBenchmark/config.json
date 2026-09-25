@@ -1,0 +1,40 @@
+{
+  "_leia": "Veja README.md. Chaves iniciadas por _ sao ignoradas.",
+  "motion_json": "C:/caminho/para/transfer_kinematic_export.json",
+  "adapter_module": "",
+
+  "_unidades_e_eixos": "unit_scale_to_cm: 0.1 se o JSON estiver em mm, 100 se em metros. axis_conversion: none | yup_to_zup | zup_to_yup",
+  "unit_scale_to_cm": 0.1,
+  "axis_conversion": "none",
+  "matrix_order": "row",
+  "quaternion_order": "xyzw",
+  "euler_order": "XYZ",
+  "transform_mode": "absolute",
+
+  "id_map": {},
+  "only_ids": [],
+  "max_moving": 10,
+
+  "inspect_only": true,
+  "modes": ["A", "B", "C"],
+  "target_fps": 30,
+  "warmup_s": 3,
+  "duration_s": 30,
+  "speed": 1.0,
+  "loop": true,
+  "pace_to_target": true,
+  "explicit_refresh": true,
+  "update_every_n_frames": 1,
+  "ignore_joints": true,
+
+  "mesh_quality": "normal",
+  "hide_fixed": false,
+
+  "snapshot_fractions": [0.0, 0.5, 1.0],
+  "snapshot_size": [1280, 720],
+
+  "require_doc_name_contains": "",
+  "confirm": true,
+  "show_progress": true,
+  "results_dir": ""
+}

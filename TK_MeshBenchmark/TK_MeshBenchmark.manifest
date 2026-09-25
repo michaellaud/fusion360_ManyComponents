@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"IA",
+	"description":	{
+		"":	"Diagnostico de desempenho do Transfer Kinematic: CAD individual (A), CAD em lote (B) e Custom Graphics (C)"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
