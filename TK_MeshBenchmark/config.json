@@ -1,6 +1,6 @@
 {
   "_leia": "Veja README.md. Chaves iniciadas por _ sao ignoradas.",
-  "motion_json": "C:/caminho/para/transfer_kinematic_export.json",
+  "motion_json": "",
   "adapter_module": "",
 
   "_unidades_e_eixos": "unit_scale_to_cm: 0.1 se o JSON estiver em mm, 100 se em metros. axis_conversion: none | yup_to_zup | zup_to_yup",

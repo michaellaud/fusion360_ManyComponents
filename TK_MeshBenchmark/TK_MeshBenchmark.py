@@ -88,6 +88,32 @@ def load_config():
     return cfg
 
 
+def resolve_motion_path(cfg):
+    """Return an existing motion JSON path; ask with a file dialog and remember it in config.json."""
+    path = cfg.get('motion_json') or ''
+    if path and not os.path.isabs(path):
+        path = os.path.join(_HERE, path)
+    if path and os.path.isfile(path):
+        return path
+    dlg = _ui.createFileDialog()
+    dlg.title = 'Selecione o JSON exportado pelo Transfer Kinematic'
+    dlg.filter = 'JSON (*.json);;Todos (*.*)'
+    dlg.isMultiSelectEnabled = False
+    if dlg.showOpen() != adsk.core.DialogResults.DialogOK:
+        return None
+    path = dlg.filename
+    cfg_path = os.path.join(_HERE, 'config.json')
+    try:
+        with open(cfg_path, 'r', encoding='utf-8') as f:
+            raw = json.load(f)
+        raw['motion_json'] = path.replace('\\', '/')
+        with open(cfg_path, 'w', encoding='utf-8') as f:
+            json.dump(raw, f, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
+    return path
+
+
 def load_motion(cfg):
     path = cfg['motion_json']
     if not os.path.isabs(path):
@@ -667,6 +693,10 @@ def run(context):
     log = None
     try:
         cfg = load_config()
+        motion_path = resolve_motion_path(cfg)
+        if not motion_path:
+            return
+        cfg['motion_json'] = motion_path
         stamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
         out_dir = os.path.join(cfg.get('results_dir') or os.path.join(_HERE, 'results'), stamp)
         os.makedirs(out_dir, exist_ok=True)
